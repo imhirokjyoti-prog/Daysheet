@@ -1,6 +1,9 @@
 package com.aarhi.daysheet;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +37,9 @@ public class MainActivity extends Activity {
             }
         });
         setContentView(web);
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{ Manifest.permission.POST_NOTIFICATIONS }, 1);
+        }
         if (state != null) web.restoreState(state);
         else web.loadUrl("file:///android_asset/index.html");
     }
@@ -59,6 +65,11 @@ public class MainActivity extends Activity {
     }
 
     private class Bridge {
+        @JavascriptInterface
+        public void setReminder(int h, int m, boolean on) {
+            Reminder.save(getApplicationContext(), h, m, on);
+        }
+
         @JavascriptInterface
         public void share(String text, String title) {
             Intent i = new Intent(Intent.ACTION_SEND);
