@@ -35,4 +35,4 @@ jobs:
           git init -q -b register-apk
           git -c user.name=ci -c user.email=ci@users.noreply.github.com add AarhiRegister.apk
           git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -qm "APK ${GITHUB_SHA::7}"
-          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" apk
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" register-apk
